@@ -17,12 +17,20 @@ def ocr(image):
 def draw_Text(draw, position, size=5):
     draw.ellipse(position, fill="white")
 
-def speak_text(text):
+def speak_text(text,type_voice):
     engine = pyttsx3.init()
     voices = engine.getProperty('voices')
-    engine.setProperty('voice', voices[1].id)
-    engine.say(text)
-    engine.runAndWait()
+    if type_voice.lower() == "male":
+        engine.setProperty('voice', voices[0].id)
+        engine.say(text)
+        engine.runAndWait()
+    elif type_voice.lower() == "female":
+        engine.setProperty('voice', voices[1].id)
+        engine.say(text)
+        engine.runAndWait()
+    else:
+        print("error")
+        
     
 
 def get_image_download_link(image):
@@ -83,8 +91,10 @@ def main():
     st.text(text_result)
 
     st.warning("Click the button below to listen to the recognized text.")
+    type_voice = st.selectbox("Male/Female Voice", ("Male","Female"))
+    
     if st.button("Listen to Text"):
-        speak_text(text_result)
+        speak_text(text_result,type_voice)
 
 
 if __name__ == "__main__":
